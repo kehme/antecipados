@@ -1,0 +1,129 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pedidos Antecipados · Ke Home</title>
+<style>
+:root{color-scheme:dark;--bg:#000;--cd:#0e0e0e;--cd2:#181818;--bd:#2b2b2b;--tx:#f5f5f5;--mt:#8c8c8c;--pr:#fff;--ok:#22c55e;--wr:#f59e0b;--er:#ef4444}input:focus,select:focus,textarea:focus{outline:none;border-color:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:14px system-ui,Segoe UI,Arial,sans-serif}
+header{background:#000;padding:12px 18px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:5}
+.logo{font-weight:800;font-size:18px;letter-spacing:3px}.logo small{display:block;font-size:11px;color:var(--mt);font-weight:500}
+.sp{flex:1}button,select,input,textarea{font:inherit;color:var(--tx);background:var(--cd2);border:1px solid var(--bd);border-radius:8px;padding:8px 10px}
+button{cursor:pointer}button:hover{border-color:var(--pr)}.pri{background:var(--pr);border-color:var(--pr);color:#000;font-weight:700}.pri:hover{background:#d9d9d9;border-color:#d9d9d9}.dg{background:#3a1620;border-color:var(--er)}
+main{max-width:1200px;margin:auto;padding:16px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}
+.st{background:var(--cd);border:1px solid var(--bd);border-radius:12px;padding:12px}.st b{font-size:26px;display:block}.st span{color:var(--mt);font-size:12px}
+.tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}.tab{border-radius:20px}.tab.on{background:var(--pr);border-color:var(--pr);color:#000;font-weight:700}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.bar input{flex:1;min-width:160px}
+.card{background:var(--cd);border:1px solid var(--bd);border-left:5px solid var(--pr);border-radius:12px;padding:12px;margin-bottom:10px}
+.card.p{border-left-color:var(--er)}.card.a{border-left-color:var(--wr)}.card.g{border-color:var(--ok);border-left-color:var(--ok);background:#06210f}
+.top{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.top h3{margin:0;font-size:16px}
+.bd{font-size:11px;padding:2px 8px;border-radius:12px;background:var(--cd2);border:1px solid var(--bd)}.bd.r{background:#4a1a22;border-color:var(--er)}.bd.y{background:#4a3510;border-color:var(--wr)}.bd.g{background:#12391f;border-color:var(--ok)}
+.meta{color:var(--mt);font-size:12px;margin:6px 0}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:6px;margin-top:8px}
+.s{border:1px solid var(--bd);border-radius:10px;padding:8px;background:var(--cd2);cursor:pointer;text-align:left;font-size:12px}
+.s.ok{background:#12391f;border-color:var(--ok)}.s.nx{border-color:var(--wr);box-shadow:0 0 0 1px var(--wr) inset}.s i{font-style:normal;color:var(--mt);display:block;font-size:11px}
+table{width:100%;border-collapse:collapse;background:var(--cd);border-radius:12px;overflow:hidden}th,td{padding:8px 10px;border-bottom:1px solid var(--bd);text-align:left;font-size:13px}th{background:var(--cd2);color:var(--mt)}
+.tw{overflow-x:auto}dialog{background:var(--cd);color:var(--tx);border:1px solid var(--bd);border-radius:14px;max-width:640px;width:94%;padding:18px}dialog::backdrop{background:#000a}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}label{display:block;font-size:12px;color:var(--mt)}label input,label select,label textarea{width:100%;margin-top:3px}.f{grid-column:1/-1}
+.log{max-height:170px;overflow:auto;font-size:12px;color:var(--mt);border:1px solid var(--bd);border-radius:8px;padding:8px;margin:8px 0}
+pre{background:#050505;padding:10px;border-radius:8px;overflow:auto;font-size:12px}#toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--pr);color:#000;font-weight:600;padding:10px 16px;border-radius:10px;display:none;z-index:9}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--mt);display:inline-block}.dot.ok{background:var(--ok)}.dot.er{background:var(--er)}
+.x{position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:50%;background:var(--er);border-color:var(--er);color:#fff;padding:0;font-weight:700;line-height:1}.x:hover{background:#ff5a5a;border-color:#ff5a5a}
+@media(max-width:560px){.g2{grid-template-columns:1fr}}
+</style></head><body>
+<header><div class="logo">KE HOME<small>Pedidos Antecipados · fluxo entre setores</small></div><div class="sp"></div>
+<span id="sy" title="Sincronização"><i class="dot" id="dot"></i> <small id="sl">local</small></span>
+<button id="snd" onclick="togSnd()" title="Som das notificações do setor">🔔</button> <button onclick="ident()" id="me">👤 Identificar</button><button class="pri" id="nb" onclick="formOrder()">＋ Novo Pedido</button></header>
+<main><div class="stats" id="stats"></div>
+<div class="tabs"><button class="tab on" data-t="a">📦 Pedidos em Execução</button><button class="tab" data-t="h">🗂 Histórico</button><button class="tab" data-t="c">⚙ Config</button></div>
+<section id="va"><div class="bar"><input id="q" placeholder="Buscar nº, cliente, carregamento, NF…" oninput="render()"><select id="fs" onchange="render()"><option value="">Aguardando: todos</option><option>Comercial</option><option>Logística</option><option>Financeiro/Faturamento</option></select><button onclick="fs.value=me.setor||'';render()">Minha fila</button><label style="display:flex;align-items:center;gap:6px"><input type="checkbox" id="fp" onchange="render()" style="width:auto">Só prioridade/atrasados</label></div><div id="la"></div></section>
+<section id="vh" hidden><div class="bar"><input id="hq" placeholder="Buscar no histórico…" oninput="render()"><label>De <input type="date" id="h1" onchange="render()"></label><label>Até <input type="date" id="h2" onchange="render()"></label><button onclick="csv()">⬇ Exportar CSV</button></div><div class="tw" id="lh"></div></section>
+<section id="vc" hidden><h3>☁ Supabase (sincronização entre dispositivos)</h3><p style="color:var(--mt)">Rode o SQL abaixo no <b>SQL Editor</b> do Supabase, depois cole a Project URL e a chave <b>anon public</b> em cada dispositivo.</p>
+<pre id="sql">create table pedidos_antecipados_db (
+  id text primary key default 'main',
+  data jsonb not null default '[]'::jsonb,
+  updated_at timestamptz default now()
+);
+alter table pedidos_antecipados_db enable row level security;
+create policy "allow anon all" on pedidos_antecipados_db
+  for all to anon using (true) with check (true);</pre>
+<div class="g2"><label>Project URL<input id="cu" placeholder="https://xxxx.supabase.co"></label><label>Chave anon public<input id="ck" type="password"></label></div>
+<p><button class="pri" onclick="conn()">☁ Salvar & Conectar</button> <button onclick="sync(1)">🔄 Sincronizar agora</button></p>
+<h3>💾 Backup</h3><button onclick="bk()">⬇ Exportar JSON</button> <label style="display:inline-block"><input type="file" id="imp" accept=".json" onchange="imp(this)" style="display:none"><span class="pri" style="padding:8px 10px;border-radius:8px;cursor:pointer;display:inline-block">⬆ Importar JSON</span></label></section></main>
+<dialog id="dg"></dialog><div id="toast"></div>
+<script>
+const STEPS=[{k:'capt',n:'Pedido criado',s:'Comercial',i:'🛒'},{k:'mont',n:'Montagem',s:'Logística',i:'🔧'},{k:'sep',n:'Separação',s:'Logística',i:'📦'},{k:'pag',n:'Pagamento confirmado',s:'Financeiro/Faturamento',i:'💰'},{k:'conf',n:'Conferência',s:'Logística',i:'✅'},{k:'fat',n:'Faturado (NF)',s:'Financeiro/Faturamento',i:'🧾'}];
+const SET=['Comercial','Logística','Financeiro/Faturamento','Liderança','Suporte (Douglas)'],PG=['PIX','Transferência','Boleto antecipado','Cartão','Depósito'];
+const $=id=>document.getElementById(id),E=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const F=t=>t?new Date(t).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'}):'—',R=v=>(+v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+let D=JSON.parse(localStorage.pa_d||'[]'),cfg=JSON.parse(localStorage.pa_c||'{}'),me=JSON.parse(localStorage.pa_me||'{}'),tab='a',tm;if(['Financeiro','Faturamento'].includes(me.setor))me.setor='Financeiro/Faturamento';
+const TT=ms=>{const h=Math.floor(ms/36e5),d=Math.floor(h/24);return h<1?Math.round(ms/6e4)+'min':d?d+'d '+h%24+'h':h+'h'};
+const L=()=>D.filter(o=>!o.del),find=id=>D.find(o=>o.id===id);
+function toast(t){const e=$('toast');e.textContent=t;e.style.display='block';clearTimeout(e._t);e._t=setTimeout(()=>e.style.display='none',2800)}
+function persist(){localStorage.pa_d=JSON.stringify(D)}
+function save(o){o.upd=Date.now();if(!find(o.id))D.push(o);persist();snap();render();clearTimeout(tm);tm=setTimeout(()=>sync(),600)}
+function lg(o,t){(o.log=o.log||[]).push({at:Date.now(),by:(me.nome||'?')+' ('+(me.setor||'?')+')',t})}
+function setSt(s,t){$('dot').className='dot '+s;$('sl').textContent=t}
+async function sb(m,b){const r=await fetch(cfg.url+'/rest/v1/pedidos_antecipados_db'+(m=='GET'?'?id=eq.main&select=data':'?on_conflict=id'),{method:m,headers:{apikey:cfg.key,Authorization:'Bearer '+cfg.key,'Content-Type':'application/json',Prefer:'resolution=merge-duplicates'},body:b&&JSON.stringify(b)});if(!r.ok)throw Error(r.status);return m=='GET'?r.json():0}
+async function sync(v){if(!cfg.url||!cfg.key){setSt('','local');return}try{setSt('','sincronizando…');const r=await sb('GET'),rem=r[0]?r[0].data:[],m=new Map(D.map(o=>[o.id,o]));rem.forEach(o=>{const l=m.get(o.id);if(!l||o.upd>l.upd)m.set(o.id,o)});D=[...m.values()];persist();first?(first=0,snap()):chk();await sb('POST',{id:'main',data:D,updated_at:new Date().toISOString()});setSt('ok','online '+new Date().toLocaleTimeString('pt-BR',{timeStyle:'short'}));render();if(v)toast('Sincronizado ☁')}catch(e){setSt('er','erro de conexão');if(v)toast('Falha: '+e.message)}}
+function conn(){cfg={url:$('cu').value.trim().replace(/\/$/,''),key:$('ck').value.trim()};localStorage.pa_c=JSON.stringify(cfg);sync(1)}
+const nxt=o=>STEPS.find(s=>!o.steps[s.k]),DT=d=>d?d.split('-').reverse().join('/'):'—',dias=o=>Math.floor((Date.now()-(o.ent?new Date(o.ent+'T00:00:00'):new Date(o.criado)))/864e5),late=o=>!o.done&&dias(o)>=2;
+let AC,pk=null,first=1;
+function unlock(){try{if(!AC)AC=new(window.AudioContext||window.webkitAudioContext)();if(AC.state=='suspended')AC.resume()}catch(e){}}
+['pointerdown','keydown'].forEach(e=>addEventListener(e,unlock,{passive:true}));
+function updSnd(){$('snd').textContent=localStorage.pa_snd=='0'?'🔕':'🔔'}
+function togSnd(){unlock();localStorage.pa_snd=localStorage.pa_snd=='0'?'1':'0';updSnd();if(localStorage.pa_snd!='0'){beep();toast('🔔 Som de notificação ligado')}else toast('🔕 Som desligado')}
+function beep(){if(localStorage.pa_snd=='0'||!AC)return;try{[[880,0],[1175,.2]].forEach(([f,t])=>{const o=AC.createOscillator(),g=AC.createGain(),n=AC.currentTime+t;o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0,n);g.gain.linearRampToValueAtTime(.3,n+.02);g.gain.exponentialRampToValueAtTime(.001,n+.4);o.connect(g);g.connect(AC.destination);o.start(n);o.stop(n+.45)})}catch(e){}}
+const mk=()=>{const q=new Set();L().forEach(o=>{if(o.done)return;const n=nxt(o);if(n&&n.s==me.setor)q.add(o.id+':'+n.k)});return q};
+function snap(){pk=mk()}
+function chk(){const c=mk();if(pk){const nw=[...c].filter(k=>!pk.has(k));if(nw.length){beep();navigator.vibrate&&navigator.vibrate([200,100,200]);const o=find(nw[0].split(':')[0]);toast('🔔 '+(nw.length>1?nw.length+' novas pendências':'Nova pendência: #'+o.num)+' · '+me.setor)}}pk=c}
+const PW={'Liderança':'kehome2026','Suporte (Douglas)':'8050'};let pend;
+const priv=()=>me.setor=='Liderança'||me.setor=='Suporte (Douglas)';
+function saveMe(){const n=i_n.value.trim(),st=i_s.value;if(!n)return toast('Informe o nome');if(PW[st])return askPw(n,st);setMe(n,st)}
+function setMe(n,st){me={nome:n,setor:st};localStorage.pa_me=JSON.stringify(me);dg.close();snap();render();toast('Identificado: '+st)}
+function askPw(n,st){pend={n,st};dg.innerHTML=`<button class=x type=button onclick="dg.close()" title="Fechar">✕</button><h3>🔒 Senha do setor ${st}</h3><form onsubmit="event.preventDefault();chkPw()"><label>Digite a senha<input id=pw type=password autocomplete=off></label><p><button class=pri type=submit>Confirmar</button> <button type=button onclick="ident()">Voltar</button></p></form>`;pw.focus()}
+function chkPw(){if(pw.value===PW[pend.st])setMe(pend.n,pend.st);else{toast('Senha incorreta');pw.value=''}}
+function ident(){dg.innerHTML=`<button class=x type=button onclick="dg.close()" title="Fechar">✕</button><form onsubmit="event.preventDefault();saveMe()"><h3>👤 Quem é você?</h3><div class=g2><label>Nome<input id=i_n value="${E(me.nome)}"></label><label>Setor<select id=i_s>${SET.map(s=>`<option ${s==me.setor?'selected':''}>${s}</option>`).join('')}</select></label></div><p><button class=pri type=submit>Salvar</button></p></form>`;dg.showModal()}
+function tog(id,k){if(!me.nome)return ident();const o=find(id),i=STEPS.findIndex(s=>s.k==k),s=STEPS[i],lead=priv();
+if(!lead&&me.setor!=s.s)return toast('Apenas '+s.s+' (ou Liderança) marca esta etapa');
+if(o.steps[k]){if(!confirm('Desmarcar "'+s.n+'"? As etapas seguintes também serão desmarcadas.'))return;STEPS.slice(i).forEach(x=>delete o.steps[x.k]);o.done=false;delete o.doneAt;lg(o,'↩ Desmarcou: '+s.n)}
+else{if(!lead&&STEPS.slice(0,i).some(x=>!o.steps[x.k]))return toast('Conclua as etapas anteriores primeiro');let nf='',cg='';if(k=='fat')nf=prompt('Número da NF (opcional):')||'';if(k=='mont')cg=prompt('Número do carregamento do pedido:')||'';
+o.steps[k]={by:me.nome,at:Date.now(),nf,cg};lg(o,'✔ '+s.n+(nf?' · NF '+nf:'')+(cg?' · Carregamento '+cg:''));if(k=='fat'){o.done=true;o.doneAt=Date.now()}}save(o)}
+function render(){const a=L().filter(o=>!o.done),h=L().filter(o=>o.done),hoje=new Date().toDateString();
+$('me').textContent=me.nome?'👤 '+me.nome+' · '+me.setor:'👤 Identificar';document.title=(mk().size?'('+mk().size+') ':'')+'Pedidos Antecipados · Ke Home';$('nb').style.display=canNew()?'':'none';document.querySelector('.tab[data-t=c]').style.display=priv()?'':'none';if(!priv()&&!$('vc').hidden)document.querySelector('.tab[data-t=a]').click();
+const c=[['Em execução',a.length],['Aguardando montagem',a.filter(o=>!o.steps.mont).length],['Aguardando separação',a.filter(o=>o.steps.mont&&!o.steps.sep).length],['Aguardando pagamento',a.filter(o=>o.steps.sep&&!o.steps.pag).length],['Aguardando conferência',a.filter(o=>o.steps.pag&&!o.steps.conf).length],['Aguardando faturamento',a.filter(o=>o.steps.conf&&!o.steps.fat).length],['Atrasados',a.filter(late).length]];
+$('stats').innerHTML=c.map(x=>`<div class=st><b>${x[1]}</b><span>${x[0]}</span></div>`).join('');
+const q=$('q').value.toLowerCase(),txt=o=>[o.num,o.cli,o.transp,...Object.values(o.steps).flatMap(s=>[s.nf,s.cg])].join(' ').toLowerCase();
+let l=a.filter(o=>(!q||txt(o).includes(q))&&(!fs.value||nxt(o).s==fs.value)&&(!fp.checked||o.prio||late(o)));
+l.sort((x,y)=>(y.prio?1:0)-(x.prio?1:0)||(x.ent||'9').localeCompare(y.ent||'9'));
+$('la').innerHTML=l.map(o=>{const n=nxt(o);return`<div class="card ${o.steps.pag?'g':o.prio?'p':late(o)?'a':''}"><div class=top><h3>#${E(o.num)}${o.transp?' · '+E(o.transp):''}${o.steps.mont?.cg?' · '+E(o.steps.mont.cg):''}</h3>${o.prio?'<span class="bd r">🔴 Prioridade</span>':''}${late(o)?'<span class="bd y">⏰ ${dias(o)} dias em aberto</span>':''}${o.steps.pag?'<span class="bd g">✅ Liberado</span>':''}<span class="bd y">Aguardando: ${n.s}</span><span class=sp></span><button onclick="detail('${o.id}')">Detalhes</button></div>
+<div class=meta>Entrada: ${DT(o.ent)} · Cliente: ${E(o.cli)} · Cadastrado: ${F(o.criado)}</div>
+${o.obs?`<div class=meta>📝 ${E(o.obs)}</div>`:''}<div class=steps>${STEPS.map(s=>{const d=o.steps[s.k];return`<button class="s ${d?'ok':s==n?'nx':''}" onclick="tog('${o.id}','${s.k}')">${d?'☑':'☐'} ${s.i} ${s.n}<i>${s.s}${d?' · '+E(d.by)+' · '+F(d.at)+(d.nf?' · NF '+E(d.nf):'')+(d.cg?' · Carreg. '+E(d.cg):''):''}</i></button>`}).join('')}</div></div>`}).join('')||'<p style="color:var(--mt)">Nenhum pedido em execução.</p>';
+const hq=$('hq').value.toLowerCase(),d1=$('h1').value,d2=$('h2').value;
+const hl=h.filter(o=>(!hq||txt(o).includes(hq))&&(!d1||new Date(o.doneAt).toISOString().slice(0,10)>=d1)&&(!d2||new Date(o.doneAt).toISOString().slice(0,10)<=d2)).sort((x,y)=>y.doneAt-x.doneAt);
+$('lh').innerHTML=`<table><tr><th>Pedido</th><th>Cliente</th><th>Entrada</th><th>Carregamento</th><th>NF</th><th>Transp.</th><th>Criado</th><th>Finalizado</th><th>Tempo total</th><th></th></tr>${hl.map(o=>`<tr><td>#${E(o.num)}</td><td>${E(o.cli)}</td><td>${DT(o.ent)}</td><td>${E(o.steps.mont?.cg)||'—'}</td><td>${E(o.steps.fat?.nf)||'—'}</td><td>${E(o.transp)||'—'}</td><td>${F(o.criado)}</td><td>${F(o.doneAt)}</td><td>${TT(o.doneAt-o.criado)}</td><td><button onclick="detail('${o.id}')">Ver</button></td></tr>`).join('')||'<tr><td colspan=10>Nada encontrado.</td></tr>'}</table>`}
+const canNew=()=>priv()||me.setor=='Comercial';
+function formOrder(id){if(id&&find(id).done&&!priv())return toast('Edição de pedidos finalizados só pela Liderança e Suporte');if(!id&&!canNew())return me.nome?toast('Apenas Comercial, Liderança e Suporte criam pedidos'):ident();const o=find(id)||{};dg.innerHTML=`<h3>${id?'✎ Editar':'＋ Novo'} Pedido</h3><div class=g2>
+<label>Nº do pedido *<input id=f_num value="${E(o.num)}"></label><label>Cliente *<input id=f_cli value="${E(o.cli)}"></label>
+<label>Transportadora<input id=f_tr value="${E(o.transp)}"></label>
+<label>Data de entrada do pedido<input id=f_ent type=date value="${o.ent||new Date().toLocaleDateString('sv-SE')}"></label>
+<label class=f style="display:flex;gap:6px;align-items:center"><input type=checkbox id=f_pr style="width:auto" ${o.prio?'checked':''}>🔴 Prioridade</label>
+<label class=f>Observações<textarea id=f_obs rows=2>${E(o.obs)}</textarea></label></div>
+<p><button class=pri onclick="saveOrder('${id||''}')">✓ Salvar</button> <button onclick="dg.close()">Cancelar</button></p>`;dg.showModal()}
+function saveOrder(id){if(!me.nome){dg.close();return ident()}if(!id&&!canNew()){dg.close();return toast('Sem permissão para criar pedidos')}const num=f_num.value.trim(),cli=f_cli.value.trim();if(!num||!cli)return toast('Informe nº e cliente');
+if(L().some(x=>x.num==num&&x.id!=id)&&!confirm('Já existe pedido com esse número. Continuar?'))return;
+const o=find(id)||{id:'p'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),criado:Date.now(),steps:{},log:[]};
+Object.assign(o,{num,cli,transp:f_tr.value,ent:f_ent.value,prio:f_pr.checked,obs:f_obs.value});
+if(!id){o.steps.capt={by:me.nome,at:Date.now()};lg(o,'🆕 Pedido cadastrado')}else lg(o,'✎ Pedido editado');save(o);dg.close();toast('Pedido salvo')}
+function detail(id){const o=find(id);dg.innerHTML=`<h3>#${E(o.num)}${o.transp?' · '+E(o.transp):''}${o.steps.mont?.cg?' · '+E(o.steps.mont.cg):''}</h3><div class=meta>Entrada: ${DT(o.ent)} · Cliente: ${E(o.cli)}</div>${o.obs?`<div class=meta>📝 ${E(o.obs)}</div>`:''}
+<b>Histórico de ações</b><div class=log>${(o.log||[]).slice().reverse().map(x=>`${F(x.at)} — ${E(x.by)}: ${E(x.t)}`).join('<br>')}</div>
+<div class=bar><input id=nt placeholder="Adicionar comentário…"><button onclick="note('${id}')">💬 Enviar</button></div>
+<p>${!o.done||priv()?`<button onclick="formOrder('${id}')">✎ Editar</button> `:''}${o.done&&priv()?`<button onclick="reopen('${id}')">↩ Reabrir</button>`:''} ${priv()||(!o.done&&me.setor=='Comercial')?`<button class=dg onclick="del('${id}')">🗑 Excluir</button>`:''} <button onclick="dg.close()">Fechar</button></p>`;dg.showModal()}
+function note(id){const o=find(id),t=nt.value.trim();if(!t||!me.nome)return;lg(o,'💬 '+t);save(o);detail(id)}
+function reopen(id){if(!priv())return toast('Sem permissão');const o=find(id);o.done=false;delete o.doneAt;delete o.steps.fat;lg(o,'↩ Pedido reaberto');save(o);dg.close()}
+function del(id){const o0=find(id);if(!(priv()||(!o0.done&&me.setor=='Comercial')))return toast('Sem permissão para excluir');if(!confirm('Excluir este pedido?'))return;const o=find(id);o.del=true;save(o);dg.close()}
+function csv(){const r=[['Pedido','Cliente','Entrada','Carregamento','NF','Transportadora','Cadastrado','Finalizado']].concat(L().filter(o=>o.done).map(o=>[o.num,o.cli,DT(o.ent),o.steps.mont?.cg||'',o.steps.fat?.nf||'',o.transp,F(o.criado),F(o.doneAt)]));
+dl('historico.csv','\ufeff'+r.map(x=>x.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\n'),'text/csv')}
+function dl(n,t,m){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:m}));a.download=n;a.click()}
+function bk(){dl('backup-pedidos.json',JSON.stringify(D),'application/json')}
+function imp(i){const f=i.files[0];if(!f)return;f.text().then(t=>{try{const r=JSON.parse(t),m=new Map(D.map(o=>[o.id,o]));r.forEach(o=>{const l=m.get(o.id);if(!l||o.upd>l.upd)m.set(o.id,o)});D=[...m.values()];persist();render();sync();toast('Importado')}catch(e){toast('Arquivo inválido')}})}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{if(b.dataset.t=='c'&&!priv())return toast('Acesso restrito à Liderança');document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x==b));['a','h','c'].forEach(t=>$('v'+t).hidden=t!=b.dataset.t)});
+$('cu').value=cfg.url||'';$('ck').value=cfg.key||'';updSnd();snap();render();if(!me.nome)ident();sync();setInterval(()=>sync(),10000);
+</script></body></html>
